@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "deploy": "hasura migrate apply --endpoint https://pylon.suncoast.io --access-key ${ACCESS_KEY}"
+  }
+}

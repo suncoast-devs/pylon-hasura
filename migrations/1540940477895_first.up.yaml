@@ -1,0 +1,675 @@
+- type: replace_metadata
+  args:
+    query_templates: []
+    tables:
+    - array_relationships:
+      - comment: null
+        name: homeworks
+        using:
+          foreign_key_constraint_on:
+            column: cohortId
+            table: homework
+      - comment: null
+        name: studentProfiles
+        using:
+          foreign_key_constraint_on:
+            column: cohortId
+            table: studentProfile
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: program
+        using:
+          foreign_key_constraint_on: programId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - description
+          - endDate
+          - id
+          - name
+          - programId
+          - startDate
+          filter: {}
+        role: user
+      table: cohort
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: assignments
+        using:
+          foreign_key_constraint_on:
+            column: homeworkId
+            table: assignment
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: cohort
+        using:
+          foreign_key_constraint_on: cohortId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - title
+          - body
+          - summary
+          - cohortId
+          filter: {}
+        role: user
+      table: homework
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            assignment:
+              studentProfile:
+                person:
+                  userId:
+                    _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            assignment:
+              studentProfile:
+                person:
+                  userId:
+                    _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: assignment
+        using:
+          foreign_key_constraint_on: assignmentId
+      - comment: null
+        name: note
+        using:
+          foreign_key_constraint_on: noteId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - assignmentId
+          - noteId
+          filter:
+            assignment:
+              studentProfile:
+                person:
+                  userId:
+                    _eq: X-HASURA-USER-ID
+        role: user
+      table: assignmentNote
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - assignmentId
+          - noteId
+          filter:
+            assignment:
+              studentProfile:
+                person:
+                  userId:
+                    _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships:
+      - comment: null
+        name: notes
+        using:
+          foreign_key_constraint_on:
+            column: assignmentId
+            table: assignmentNote
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: homework
+        using:
+          foreign_key_constraint_on: homeworkId
+      - comment: null
+        name: studentProfile
+        using:
+          foreign_key_constraint_on: studentProfileId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - homeworkId
+          - studentProfileId
+          - score
+          - memo
+          - submissionUrl
+          - status
+          filter:
+            studentProfile:
+              person:
+                userId:
+                  _eq: X-HASURA-USER-ID
+        role: user
+      table: assignment
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - address
+          - id
+          - isPrimary
+          - personId
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      table: email
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - address
+          - isPrimary
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships: []
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - isSMSCapable
+          - label
+          - personId
+          - tel
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      table: phoneNumber
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - isSMSCapable
+          - label
+          - tel
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: note
+        using:
+          foreign_key_constraint_on: noteId
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions: []
+      table: personNote
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: addresses
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: address
+      - comment: null
+        name: attendanceRecords
+        using:
+          foreign_key_constraint_on:
+            column: recorderId
+            table: attendanceRecord
+      - comment: null
+        name: emails
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: email
+      - comment: null
+        name: links
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: link
+      - comment: null
+        name: authoredNotes
+        using:
+          foreign_key_constraint_on:
+            column: authorId
+            table: note
+      - comment: null
+        name: phoneNumber
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: phoneNumber
+      - comment: null
+        name: studentProfiles
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: studentProfile
+      - comment: null
+        name: notes
+        using:
+          foreign_key_constraint_on:
+            column: personId
+            table: personNote
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - additionalName
+          - dietaryNote
+          - familyName
+          - fullName
+          - givenName
+          - honorificPrefix
+          - honorificSuffix
+          - id
+          - nickname
+          - shirtSize
+          - userId
+          filter:
+            userId:
+              _eq: X-HASURA-USER-ID
+        role: user
+      table: person
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - additionalName
+          - dietaryNote
+          - familyName
+          - fullName
+          - givenName
+          - honorificPrefix
+          - honorificSuffix
+          - nickname
+          - shirtSize
+          filter:
+            userId:
+              _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships: []
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - countryName
+          - extendedAddress
+          - id
+          - label
+          - locality
+          - personId
+          - postalCode
+          - postOfficeBox
+          - streetAddress
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      table: address
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - countryName
+          - extendedAddress
+          - label
+          - locality
+          - postOfficeBox
+          - postalCode
+          - streetAddress
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships:
+      - comment: null
+        name: cohorts
+        using:
+          foreign_key_constraint_on:
+            column: programId
+            table: cohort
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships: []
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - title
+          - identifier
+          - description
+          filter: {}
+        role: user
+      table: program
+      update_permissions: []
+    - array_relationships: []
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: recorder
+        using:
+          foreign_key_constraint_on: recorderId
+      - comment: null
+        name: studentProfile
+        using:
+          foreign_key_constraint_on: studentProfileId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - studentProfileId
+          - date
+          - record
+          - memo
+          - recorderId
+          filter:
+            studentProfile:
+              person:
+                userId:
+                  _eq: X-HASURA-USER-ID
+        role: user
+      table: attendanceRecord
+      update_permissions: []
+    - array_relationships:
+      - comment: null
+        name: assignments
+        using:
+          foreign_key_constraint_on:
+            column: studentProfileId
+            table: assignment
+      - comment: null
+        name: attendanceRecords
+        using:
+          foreign_key_constraint_on:
+            column: studentProfileId
+            table: attendanceRecord
+      delete_permissions: []
+      event_triggers: []
+      insert_permissions: []
+      object_relationships:
+      - comment: null
+        name: cohort
+        using:
+          foreign_key_constraint_on: cohortId
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - personId
+          - cohortId
+          - status
+          - isAvailableForHire
+          - isAvailableForContract
+          - specialty
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      table: studentProfile
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - isAvailableForContract
+          - isAvailableForHire
+          - specialty
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships: []
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: person
+        using:
+          foreign_key_constraint_on: personId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - id
+          - identifier
+          - label
+          - personId
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+      table: link
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - identifier
+          - label
+          filter:
+            person:
+              userId:
+                _eq: X-HASURA-USER-ID
+        role: user
+    - array_relationships:
+      - comment: null
+        name: people
+        using:
+          foreign_key_constraint_on:
+            column: noteId
+            table: personNote
+      - comment: null
+        name: assignments
+        using:
+          foreign_key_constraint_on:
+            column: noteId
+            table: assignmentNote
+      delete_permissions:
+      - comment: null
+        permission:
+          filter:
+            $and:
+            - author:
+                userId:
+                  _eq: X-HASURA-USER-ID
+            - assignments:
+                assignment:
+                  studentProfile:
+                    person:
+                      userId:
+                        _eq: X-HASURA-USER-ID
+        role: user
+      event_triggers: []
+      insert_permissions:
+      - comment: null
+        permission:
+          allow_upsert: true
+          check:
+            $and:
+            - author:
+                userId:
+                  _eq: X-HASURA-USER-ID
+            - assignments:
+                assignment:
+                  studentProfile:
+                    person:
+                      userId:
+                        _eq: X-HASURA-USER-ID
+        role: user
+      object_relationships:
+      - comment: null
+        name: author
+        using:
+          foreign_key_constraint_on: authorId
+      select_permissions:
+      - comment: null
+        permission:
+          columns:
+          - authorId
+          - id
+          - label
+          - message
+          filter:
+            $and:
+            - author:
+                userId:
+                  _eq: X-HASURA-USER-ID
+            - assignments:
+                assignment:
+                  studentProfile:
+                    person:
+                      userId:
+                        _eq: X-HASURA-USER-ID
+        role: user
+      table: note
+      update_permissions:
+      - comment: null
+        permission:
+          columns:
+          - label
+          - message
+          filter:
+            $and:
+            - author:
+                userId:
+                  _eq: X-HASURA-USER-ID
+            - assignments:
+                assignment:
+                  studentProfile:
+                    person:
+                      userId:
+                        _eq: X-HASURA-USER-ID
+        role: user
